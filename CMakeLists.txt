@@ -22,11 +22,14 @@ set(CMAKE_AUTOUIC "YES")
 #                              OUTPUT
 # =================================================================
 
+add_library(project_data
+  src/project/project_data.cpp
+)
+target_include_directories(project_data PRIVATE include)
+
 add_executable(img_orchestrer 
-  include/ui/orchestrer_window.hpp
+  src/ui/orchestrer_window.cpp
   src/img_orchestrer.cpp 
 )
-target_include_directories(img_orchestrer PRIVATE
-  include
-)
-target_link_libraries(img_orchestrer Qt5::Core Qt5::Widgets Qt5::WebKit Qt5::WebKitWidgets)
+target_include_directories(img_orchestrer PRIVATE include)
+target_link_libraries(img_orchestrer Qt5::Core Qt5::Widgets Qt5::WebKit Qt5::WebKitWidgets project_data)
