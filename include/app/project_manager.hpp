@@ -23,9 +23,12 @@ protected:
   bool choose_file_path(bool = true);
 
 public:
+  static constexpr auto EXTENSION{".orch"};
+  static constexpr auto EXT_LENGTH{5};
   results::Save save_project();
   results::Load load_project();
   void make_void_project();
+  void print_project();
 };
 
 } // namespace img_orchestrer::app

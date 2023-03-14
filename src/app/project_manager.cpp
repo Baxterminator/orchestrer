@@ -9,7 +9,9 @@
 #include "app/action_result.hpp"
 #include <QFileDialog>
 #include <app/project_manager.hpp>
+#include <iostream>
 #include <qfiledialog.h>
+#include <sstream>
 
 namespace img_orchestrer::app {
 
@@ -47,10 +49,14 @@ void ProjectManager::make_void_project() {
 /// @brief Save the project to the corresponding file
 results::Save ProjectManager::save_project() {
   if (project == nullptr)
-    return results::Save::SAVE_FAILED;
+    return results::Save::NO_PROJECT;
 
   if (std::empty(project->file_path)) {
-    project->file_path = "./project.orch";
+    choose_file_path(false);
+    if (project->file_path.substr(project->file_path.length() - EXT_LENGTH) !=
+        EXTENSION) {
+      project->file_path += EXTENSION;
+    }
   }
   return (project->to_file()) ? results::Save::SAVED
                               : results::Save::SAVE_FAILED;
@@ -62,11 +68,15 @@ results::Load ProjectManager::load_project() {
     // TODO: Save existing project ?
   }
 
-  if (!choose_file_path(false))
+  if (!choose_file_path())
     return results::Load::NO_SELECTION;
 
   return (project->from_file()) ? results::Load::LOADED
                                 : results::Load::LOAD_FAILED;
+}
+
+void ProjectManager::print_project() {
+  std::cout << *(project.get()) << std::endl;
 }
 
 } // namespace img_orchestrer::app

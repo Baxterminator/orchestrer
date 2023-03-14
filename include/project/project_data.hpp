@@ -10,18 +10,22 @@
 #ifndef IMG_ORCH_PROJECT
 #define IMG_ORCH_PROJECT
 
+#include <memory>
 #include <ostream>
 #include <project/scene_component.hpp>
+#include <pugixml.hpp>
 #include <string>
 #include <vector>
 
 namespace img_orchestrer::project {
 
-typedef std::vector<SceneComponent> ComponentList;
+typedef std::vector<std::shared_ptr<SceneComponent>> ComponentList;
 
 struct Scene {
   std::string scene_id;
   ComponentList list{};
+
+  bool from_file(const pugi::xml_node &);
 
   friend std::ostream &operator<<(std::ostream &os, const Scene &str);
 };

@@ -6,13 +6,12 @@
  * @createdOn      :  13/03/2023
  * @description    :  Project file definition
  *========================================================================**/
-#include <bits/types/FILE.h>
-#include <filesystem>
+#include "project/scene_component.hpp"
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <ostream>
 #include <project/project_data.hpp>
-#include <pugixml.hpp>
 #include <sstream>
 #include <string.h>
 
@@ -31,8 +30,8 @@ std::ostream &operator<<(std::ostream &os, const Scene &scene) {
 std::ostream &operator<<(std::ostream &os, const ProjectData &project) {
   os << "<project name=\"" + project.name + "\">\n";
   for (auto const &scene : project.scenes)
-    os << scene << "\n";
-  os << "</project>\n";
+    os << scene;
+  os << "</project>" << std::endl;
   return os;
 }
 
@@ -75,10 +74,35 @@ bool ProjectData::from_file() {
   //* Project Node
   auto xml_project = doc.child("project");
   for (auto &att : xml_project.attributes()) {
-    if (strcmp(att.name(), "name"))
+    if (!strcmp(att.name(), "name"))
       name = att.value();
   }
 
+  //* Scene nodes
+  for (auto &xml_scene : xml_project.children()) {
+    if (!strcmp(xml_scene.name(), "scene")) {
+      Scene scene{};
+      if (!scene.from_file(xml_scene))
+        return false;
+      scenes.push_back(scene);
+    }
+  }
+
+  return true;
+}
+
+/// @brief Load a scene from an xml node
+/// @return true if the scene was loaded incorrectly, false otherwise
+bool Scene::from_file(const pugi::xml_node &node) {
+  //* Node attributes
+  scene_id = node.attribute("name").value();
+
+  //* Node children
+  for (auto &child : node.children()) {
+    std::shared_ptr<SceneComponent> comp;
+
+    list.push_back(comp);
+  }
   return true;
 }
 

@@ -24,8 +24,10 @@ OrchestrerWindow::OrchestrerWindow()
 void OrchestrerWindow::setup_internal_callbacks() {
   connect(get_ui()->new_project, &QAction::triggered,
           [&]() { this->make_void_project(); });
-  connect(get_ui()->load_project, &QAction::triggered,
-          [&]() { this->load_project(); });
+  connect(get_ui()->load_project, &QAction::triggered, [&]() {
+    this->load_project();
+    print_project();
+  });
   connect(get_ui()->save_project, &QAction::triggered,
           [&]() { this->save_project(); });
 }
