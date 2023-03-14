@@ -29,7 +29,7 @@ std::ostream &operator<<(std::ostream &os, const Scene &scene) {
 /// @brief Transform the project into a string
 std::ostream &operator<<(std::ostream &os, const ProjectData &project) {
   os << "<project name=\"" + project.name + "\">\n";
-  for (auto const &scene : project.scenes)
+  for (auto const &[s_id, scene] : project.scenes)
     os << scene;
   os << "</project>" << std::endl;
   return os;
@@ -84,7 +84,7 @@ bool ProjectData::from_file() {
       Scene scene{};
       if (!scene.from_file(xml_scene))
         return false;
-      scenes.push_back(scene);
+      scenes.insert({scene.scene_id, scene});
     }
   }
 

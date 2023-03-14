@@ -25,6 +25,8 @@ bool ProjectManager::choose_file_path(bool exist) {
   file_diag.setFileMode(exist ? QFileDialog::ExistingFile
                               : QFileDialog::AnyFile);
   file_diag.setNameFilter("Image Orchestra Project (.orch)");
+  file_diag.setDefaultSuffix(".orch");
+  file_diag.setDirectory(QDir::home());
   if (file_diag.exec()) {
     auto list_files = file_diag.selectedFiles();
     if (list_files.size() > 0) {
@@ -41,7 +43,7 @@ void ProjectManager::make_void_project() {
     // TODO: closing project / saving project
   }
 
-  project = std::make_unique<project::ProjectData>();
+  project = std::make_shared<project::ProjectData>();
   project->name = "New Project";
   std::cout << "New project" << std::endl;
 }
@@ -75,8 +77,6 @@ results::Load ProjectManager::load_project() {
                                 : results::Load::LOAD_FAILED;
 }
 
-void ProjectManager::print_project() {
-  std::cout << *(project.get()) << std::endl;
-}
+void ProjectManager::print_project() { std::cout << *(project.get()); }
 
 } // namespace img_orchestrer::app

@@ -10,6 +10,7 @@
 #define IMG_ORCH_PROJ_MANAGER
 
 #include <app/action_result.hpp>
+#include <app/components/project_tree.hpp>
 #include <iostream>
 #include <memory>
 #include <project/project_data.hpp>
@@ -18,7 +19,8 @@ namespace img_orchestrer::app {
 
 class ProjectManager {
 protected:
-  std::unique_ptr<project::ProjectData> project;
+  std::shared_ptr<project::ProjectData> project;
+  std::unique_ptr<components::ProjectTree> project_tree;
 
   bool choose_file_path(bool = true);
 

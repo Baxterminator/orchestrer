@@ -35,6 +35,7 @@ target_include_directories(pugixml PRIVATE include)
 add_executable(img_orchestrer 
   src/app/orchestrer_window.cpp
   src/app/project_manager.cpp
+  src/app/components/project_tree.cpp
   src/main_app.cpp 
 )
 target_include_directories(img_orchestrer PRIVATE include)

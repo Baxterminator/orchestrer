@@ -10,6 +10,7 @@
 #ifndef IMG_ORCH_PROJECT
 #define IMG_ORCH_PROJECT
 
+#include <map>
 #include <memory>
 #include <ostream>
 #include <project/scene_component.hpp>
@@ -30,7 +31,7 @@ struct Scene {
   friend std::ostream &operator<<(std::ostream &os, const Scene &str);
 };
 
-typedef std::vector<Scene> SceneList;
+typedef std::map<std::string, Scene> SceneList;
 
 struct ProjectData {
   std::string name, file_path;
