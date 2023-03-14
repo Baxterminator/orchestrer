@@ -9,20 +9,24 @@
 #ifndef IMG_ORCH_PROJECT_TREE
 #define IMG_ORCH_PROJECT_TREE
 
+#include "project/project_data.hpp"
 #include "ui_main_window.h"
-#include <QTreeWidget>
 #include <memory>
-#include <project/project_data.hpp>
 #include <qtreewidget.h>
 #include <vector>
 
 namespace img_orchestrer::app::components {
 
+struct SceneItem {
+  QTreeWidgetItem *item;
+  std::vector<QTreeWidgetItem *> comp_items;
+};
+
 class ProjectTree {
 private:
   std::weak_ptr<Ui::ImageOrchestrer> ui;
   QTreeWidgetItem *header_item;
-  std::vector<QTreeWidgetItem *> scenes_items;
+  std::vector<SceneItem> scenes_items;
 
 public:
   ProjectTree(const std::shared_ptr<Ui::ImageOrchestrer>);

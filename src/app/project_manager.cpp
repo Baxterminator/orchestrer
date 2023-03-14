@@ -68,6 +68,7 @@ results::Save ProjectManager::save_project() {
 results::Load ProjectManager::load_project() {
   if (project != nullptr) {
     // TODO: Save existing project ?
+    make_void_project();
   }
 
   if (!choose_file_path())

@@ -9,6 +9,7 @@
 #include <app/components/project_tree.hpp>
 #include <memory>
 #include <qtreewidget.h>
+#include <string>
 
 namespace img_orchestrer::app::components {
 
@@ -36,12 +37,29 @@ void ProjectTree::reload_tree(std::shared_ptr<project::ProjectData> project,
   ui_shared->project_tree->clear();
   scenes_items.resize(0);
 
-  //* Updating UI
+  //*================================ Making UI ==============================*/
+  //* Header
   header_item->setText(0, project->name.c_str());
+
+  //* Scene
   for (auto &[scene_id, scene_desc] : project->scenes) {
-    auto sc_item =
+    SceneItem sc_item;
+
+    sc_item.item =
         new QTreeWidgetItem(ui_shared->project_tree, QTreeWidgetItem::Type);
-    sc_item->setText(0, scene_id.c_str());
+    sc_item.item->setText(0,
+                          (scene_id + " <" + std::to_string(scene_desc.width) +
+                           "x" + std::to_string(scene_desc.height) + ">")
+                              .c_str());
+
+    //* Components
+    for (auto &component : scene_desc.list) {
+      QTreeWidgetItem *comp_item =
+          new QTreeWidgetItem(sc_item.item, QTreeWidgetItem::Type);
+      comp_item->setText(
+          0, (component->type() + " <" + component->name() + ">").c_str());
+      sc_item.comp_items.push_back(comp_item);
+    }
     scenes_items.push_back(sc_item);
   }
 }

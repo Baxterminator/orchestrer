@@ -35,6 +35,8 @@ protected:
 
 public:
   friend std::ostream &operator<<(std::ostream &, const SceneComponent &);
+  inline std::string type() { return obj_type; }
+  inline std::string name() { return obj_name; }
 };
 
 } // namespace img_orchestrer::project::components
