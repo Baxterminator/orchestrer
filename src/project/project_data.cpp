@@ -6,7 +6,7 @@
  * @createdOn      :  13/03/2023
  * @description    :  Project file definition
  *========================================================================**/
-#include "project/scene_component.hpp"
+#include "project/components/component_factory.hpp"
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -19,9 +19,12 @@ namespace img_orchestrer::project {
 
 /// @brief Transform the scene into a string
 std::ostream &operator<<(std::ostream &os, const Scene &scene) {
-  os << "<scene name=\"" + scene.scene_id + "\">\n";
+  os << "<scene name=\"" << scene.scene_id << "\" ";
+  os << "width=\"" << scene.width << "\" ";
+  os << "height=\"" << scene.height << "\" ";
+  os << "\">\n";
   for (auto const &p : scene.list)
-    os << p << "\n";
+    os << *p << "\n";
   os << "</scene>\n";
   return os;
 }
@@ -95,11 +98,27 @@ bool ProjectData::from_file() {
 /// @return true if the scene was loaded incorrectly, false otherwise
 bool Scene::from_file(const pugi::xml_node &node) {
   //* Node attributes
-  scene_id = node.attribute("name").value();
+  auto att_it = node.attributes_begin();
+  while (att_it != node.attributes_end()) {
+    std::cout << att_it->name() << std::endl;
+    if (!strcmp(att_it->name(), "name"))
+      scene_id = att_it->value();
+    else if (!strcmp(att_it->name(), "width"))
+      width = att_it->as_uint();
+    else if (!strcmp(att_it->name(), "height"))
+      height = att_it->as_uint();
+
+    att_it++;
+  }
 
   //* Node children
   for (auto &child : node.children()) {
-    std::shared_ptr<SceneComponent> comp;
+    std::shared_ptr<components::SceneComponent> comp(
+        components::ComponentFactory::make_component(child));
+
+    // Pass to next child if this node isn't implemented
+    if (comp == nullptr)
+      continue;
 
     list.push_back(comp);
   }

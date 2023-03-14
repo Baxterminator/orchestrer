@@ -24,7 +24,9 @@ set(CMAKE_AUTOUIC "YES")
 
 add_library(project_data
   src/project/project_data.cpp
-  src/project/scene_component.cpp
+  src/project/components/scene_component.cpp
+  src/project/components/component_factory.cpp
+  src/project/components/flux_component.cpp
 )
 target_include_directories(project_data PRIVATE include)
 

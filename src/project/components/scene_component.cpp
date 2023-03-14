@@ -6,29 +6,17 @@
  * @createdOn      :  13/03/2023
  * @description    :  Component to be used in the scene
  *========================================================================**/
-#ifndef IMG_ORCH_SCENE_COMP
-#define IMG_ORCH_SCENE_COMP
-
 #include <ostream>
-#include <string>
+#include <project/components/scene_component.hpp>
 
-namespace img_orchestrer::project {
+namespace img_orchestrer::project::components {
 
-class SceneComponent {
-protected:
-  static int obj_number;
-  std::string obj_name;
+std::ostream &SceneComponent::toStr(std::ostream &os) const {
+  os << "<SceneComponent name=\"" << obj_name << "\">";
+  return os;
+}
 
-  SceneComponent() {
-    if (!obj_number)
-      obj_number = 1;
-    obj_name = "component_" + std::to_string(obj_number);
-  }
-
-public:
-  friend std::ostream &operator<<(std::ostream &, const SceneComponent &);
-};
-
-} // namespace img_orchestrer::project
-
-#endif
+std::ostream &operator<<(std::ostream &os, const SceneComponent &comp) {
+  return comp.toStr(os);
+}
+} // namespace img_orchestrer::project::components
