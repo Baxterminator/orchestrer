@@ -4,17 +4,16 @@
  * @email          :  geoffrey.cote@centraliens-nantes.org
  * @repo           :  https://github.com/Baxterminator/orchestrer
  * @createdOn      :  13/03/2023
- * @description    :  Main Window wrapper
+ * @description    :  File describing the results of some actions
  *========================================================================**/
-#include <ui/orchestrer_window.hpp>
-#include <ui_main_window.h>
 
-namespace img_orchestrer::ui {
+#ifndef IMG_ORCH_ACTION_RESULT
+#define IMG_ORCH_ACTION_RESULT
 
-OrchestrerWindow::OrchestrerWindow()
-    : base::BaseGUI<Ui::ImageOrchestrer, QMainWindow>() {
-  setup_ui();
-  statusBar()->showMessage("Load a project file (File > Load project )");
+namespace img_orchestrer::app::results {
+
+enum class Save { SAVED, SAVE_FAILED };
+
 }
 
-} // namespace img_orchestrer::ui
+#endif

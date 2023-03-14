@@ -6,8 +6,12 @@
  * @createdOn      :  13/03/2023
  * @description    :  Project file definition
  *========================================================================**/
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <ostream>
 #include <project/project_data.hpp>
+#include <sstream>
 
 namespace img_orchestrer::project {
 
@@ -27,6 +31,25 @@ std::ostream &operator<<(std::ostream &os, const ProjectData &project) {
     os << scene << "\n";
   os << "</project>\n";
   return os;
+}
+
+/*================================ IO ==============================*/
+
+/// @brief Save the project to an xml file
+/// @return if the saving process was a success
+bool ProjectData::to_file() {
+  {
+    std::ofstream handle{file_path, std::ios::trunc};
+
+    std::stringstream ss;
+    ss << *this;
+    std::string out = ss.str();
+
+    handle.write(out.c_str(), out.length());
+    handle.close();
+  }
+
+  return true;
 }
 
 } // namespace img_orchestrer::project

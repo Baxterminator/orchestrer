@@ -1,17 +1,21 @@
 // UI
+#include <app/orchestrer_window.hpp>
 #include <memory>
 #include <qapplication.h>
-#include <ui/orchestrer_window.hpp>
 
-using img_orchestrer::ui::OrchestrerWindow;
+using img_orchestrer::app::OrchestrerWindow;
 std::shared_ptr<QApplication> app;
 
 int main(int argc, char **argv) {
   app = std::make_shared<QApplication>(argc, argv);
 
-  OrchestrerWindow win;
-  win.show();
+  // Run the main window
+  {
+    OrchestrerWindow win;
+    win.show();
 
-  app->exec();
+    app->exec();
+  }
+
   app.reset();
 }

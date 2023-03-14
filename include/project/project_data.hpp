@@ -21,7 +21,7 @@ typedef std::vector<SceneComponent> ComponentList;
 
 struct Scene {
   std::string scene_id;
-  ComponentList list;
+  ComponentList list{};
 
   friend std::ostream &operator<<(std::ostream &os, const Scene &str);
 };
@@ -29,8 +29,10 @@ struct Scene {
 typedef std::vector<Scene> SceneList;
 
 struct ProjectData {
-  std::string name;
-  SceneList scenes;
+  std::string name, file_path;
+  SceneList scenes{};
+
+  bool to_file();
 
   friend std::ostream &operator<<(std::ostream &, const ProjectData &);
 };

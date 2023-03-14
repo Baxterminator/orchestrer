@@ -24,12 +24,18 @@ set(CMAKE_AUTOUIC "YES")
 
 add_library(project_data
   src/project/project_data.cpp
+  src/project/scene_component.cpp
 )
 target_include_directories(project_data PRIVATE include)
 
+add_library(pugixml
+  src/pugixml.cpp)
+target_include_directories(pugixml PRIVATE include)
+
 add_executable(img_orchestrer 
-  src/ui/orchestrer_window.cpp
-  src/img_orchestrer.cpp 
+  src/app/orchestrer_window.cpp
+  src/app/project_manager.cpp
+  src/main_app.cpp 
 )
 target_include_directories(img_orchestrer PRIVATE include)
-target_link_libraries(img_orchestrer Qt5::Core Qt5::Widgets Qt5::WebKit Qt5::WebKitWidgets project_data)
+target_link_libraries(img_orchestrer Qt5::Core Qt5::Widgets Qt5::WebKit Qt5::WebKitWidgets project_data pugixml)
