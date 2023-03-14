@@ -13,7 +13,7 @@
 namespace img_orchestrer::app::results {
 
 enum class Save { SAVED, SAVE_FAILED };
-
-}
+enum class Load { LOADED, LOAD_FAILED, NO_SELECTION };
+} // namespace img_orchestrer::app::results
 
 #endif

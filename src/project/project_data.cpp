@@ -6,12 +6,15 @@
  * @createdOn      :  13/03/2023
  * @description    :  Project file definition
  *========================================================================**/
+#include <bits/types/FILE.h>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <ostream>
 #include <project/project_data.hpp>
+#include <pugixml.hpp>
 #include <sstream>
+#include <string.h>
 
 namespace img_orchestrer::project {
 
@@ -47,6 +50,33 @@ bool ProjectData::to_file() {
 
     handle.write(out.c_str(), out.length());
     handle.close();
+  }
+
+  return true;
+}
+
+/// @brief Load an project from an XML file
+/// @return if the loading process was a success
+bool ProjectData::from_file() {
+  /*================== OPENING FILE =================*/
+  pugi::xml_document doc;
+  pugi::xml_parse_result result = doc.load_file(file_path.c_str());
+
+  if (!result) {
+    std::cout << "XML [" << file_path << "] parsed with errors, attr value: ["
+              << doc.child("node").attribute("attr").value() << "]\n";
+    std::cout << "Error description: " << result.description() << "\n";
+    std::cout << "Error offset: " << result.offset << " (error at [..."
+              << (file_path.c_str() + result.offset) << "]\n\n";
+    return false;
+  }
+
+  /*================== EXTRACTING =================*/
+  //* Project Node
+  auto xml_project = doc.child("project");
+  for (auto &att : xml_project.attributes()) {
+    if (strcmp(att.name(), "name"))
+      name = att.value();
   }
 
   return true;

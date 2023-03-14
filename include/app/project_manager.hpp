@@ -20,17 +20,12 @@ class ProjectManager {
 protected:
   std::unique_ptr<project::ProjectData> project;
 
+  bool choose_file_path(bool = true);
+
 public:
   results::Save save_project();
-  void make_void_project() {
-    if (project != nullptr) {
-      // TODO: closing project / saving project
-    }
-
-    project = std::make_unique<project::ProjectData>();
-    project->name = "New Project";
-    std::cout << "New project" << std::endl;
-  }
+  results::Load load_project();
+  void make_void_project();
 };
 
 } // namespace img_orchestrer::app

@@ -33,6 +33,7 @@ struct ProjectData {
   SceneList scenes{};
 
   bool to_file();
+  bool from_file();
 
   friend std::ostream &operator<<(std::ostream &, const ProjectData &);
 };
